@@ -7,10 +7,12 @@ import Login from './pages/auth/Login'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import InventoryDashboard from './pages/inventory/InventoryDashboard'
-import SalesDashboard from './pages/sales/SalesDashboard'
+
 import CategoryList from './pages/inventory/CategoryList'
 import ProductList from './pages/inventory/ProductList'
 import PurchaseList from './pages/inventory/PurchaseList'
+import SalesPOS from './pages/sales/SalesPOS'
+import UserList from './pages/users/UserList'
 
 function App() {
   return(
@@ -23,7 +25,7 @@ function App() {
           {/* Admin Route */}
           <Route path='/admin/dashboard' element={< AdminDashboard />} />
           <Route path='/inventory/dashboard' element={<InventoryDashboard />} />
-          <Route path='/sales/dashboard' element={< SalesDashboard/>} />
+          {/* <Route path='/sales/dashboard' element={< SalesDashboard/>} /> */}
           {/* Inventory - Categories */}
             <Route
               path="/inventory/categories"
@@ -41,7 +43,17 @@ function App() {
               path="/inventory/purchase"
               element={< PurchaseList />}
             />
+            <Route 
+              path="/sales"
+              element={<SalesPOS/>}
+            />
+            <Route 
+              path="/users"
+              element={<UserList/>}
+            />
+
           </Route>
+          
              
       </Routes>
     </BrowserRouter>

@@ -21,18 +21,26 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
-  const { role } = useSelector((state) => state.auth);
+  const { role } = useSelector((state) => state.auth || {});
 
-  // Choose dashboard path based on role
+  // Map role to dashboard path
   const dashboardPath =
-    role === "INVENTORY_MANAGER" ? "/inventory/dashboard" : "/admin/dashboard";
+    role === "INVENTORY_MANAGER"
+      ? "/inventory/dashboard"
+      : role === "SALES_EXECUTIVE"
+      ? "/sales"
+      : "/admin/dashboard";
+
+  const canSeeInventory = role === "INVENTORY_MANAGER" || role === "ADMIN";
+  const canSeeSales = role === "SALES_EXECUTIVE" || role === "ADMIN";
+  const canSeeAdmin = role === "ADMIN";
 
   const menuItems = [
     {
       section: "General",
       items: [{ label: "Dashboard", path: dashboardPath, icon: LayoutDashboard }],
     },
-    ...(role === "INVENTORY_MANAGER" || role === "ADMIN"
+    ...(canSeeInventory
       ? [
           {
             section: "Inventory",
@@ -44,7 +52,7 @@ const Sidebar = () => {
           },
         ]
       : []),
-    ...(role === "SALES_EXECUTIVE" || role === "ADMIN"
+    ...(canSeeSales
       ? [
           {
             section: "Sales",
@@ -52,7 +60,7 @@ const Sidebar = () => {
           },
         ]
       : []),
-    ...(role === "ADMIN"
+    ...(canSeeAdmin
       ? [
           {
             section: "Admin",
@@ -103,11 +111,10 @@ const Sidebar = () => {
 
             {section.items.map((item, i) => (
               <ListItem
-                // Use NavLink as the underlying component so MUI receives the active class
+                key={i}
                 component={NavLink}
                 to={item.path}
-                key={i}
-                // NavLink will call this to set the class on the ListItem
+                // NavLink will set the active class; MUI will pick it up
                 className={({ isActive }) => (isActive ? "active-link" : "inactive-link")}
                 sx={{
                   px: 2,

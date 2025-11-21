@@ -42,7 +42,7 @@ const Login = () => {
     } else if (role === "INVENTORY_MANAGER") {
       navigate("/inventory/dashboard");
     } else if (role === "SALES_EXECUTIVE") {
-      navigate("/sales/dashboard");
+      navigate("/sales");
     } else {
       navigate("/");
     }

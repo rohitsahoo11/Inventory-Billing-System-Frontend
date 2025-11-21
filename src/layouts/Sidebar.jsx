@@ -23,10 +23,14 @@ import {
 const Sidebar = () => {
   const { role } = useSelector((state) => state.auth);
 
+  // Choose dashboard path based on role
+  const dashboardPath =
+    role === "INVENTORY_MANAGER" ? "/inventory/dashboard" : "/admin/dashboard";
+
   const menuItems = [
     {
       section: "General",
-      items: [{ label: "Dashboard", path: "/dashboard", icon: LayoutDashboard }],
+      items: [{ label: "Dashboard", path: dashboardPath, icon: LayoutDashboard }],
     },
     ...(role === "INVENTORY_MANAGER" || role === "ADMIN"
       ? [
@@ -60,79 +64,78 @@ const Sidebar = () => {
 
   return (
     <Drawer
-  variant="permanent"
-  anchor="left"
-  sx={{
-    width: 240,
-    flexShrink: 0,
-    "& .MuiDrawer-paper": {
-      width: 240,
-      boxSizing: "border-box",
-      backgroundColor: "#0f172a", // slate-900
-      color: "#e2e8f0", // soft white
-    },
-  }}
->
-  <Box sx={{ px: 2, py: 3 }}>
-    <Typography variant="h6" fontWeight={700} sx={{ color: "#3b82f6" }}>
-      Inventory System
-    </Typography>
-  </Box>
-
-  <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
-
-  <List>
-    {menuItems.map((section, idx) => (
-      <Box key={idx} sx={{ mb: 2 }}>
-        <Typography
-          variant="caption"
-          sx={{
-            px: 2,
-            py: 1,
-            color: "#94a3b8", // slate-400
-            textTransform: "uppercase",
-            fontWeight: 500,
-          }}
-        >
-          {section.section}
+      variant="permanent"
+      anchor="left"
+      sx={{
+        width: 240,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: 240,
+          boxSizing: "border-box",
+          backgroundColor: "#0f172a",
+          color: "#e2e8f0",
+        },
+      }}
+    >
+      <Box sx={{ px: 2, py: 3 }}>
+        <Typography variant="h6" fontWeight={700} sx={{ color: "#3b82f6" }}>
+          Inventory System
         </Typography>
+      </Box>
 
-        {section.items.map((item, i) => (
-          <NavLink
-            key={i}
-            to={item.path}
-            style={{ textDecoration: "none" }}
-            className={({ isActive }) => (isActive ? "active-link" : "inactive-link")}
-          >
-            <ListItem
-              button
+      <Divider sx={{ borderColor: "rgba(255,255,255,0.1)" }} />
+
+      <List>
+        {menuItems.map((section, idx) => (
+          <Box key={idx} sx={{ mb: 2 }}>
+            <Typography
+              variant="caption"
               sx={{
                 px: 2,
                 py: 1,
-                borderRadius: 1,
-                color: "#e2e8f0",
-                "&.active-link": {
-                  backgroundColor: "#1e293b", // slate-800
-                  color: "#3b82f6", // blue-500
-                  fontWeight: 600,
-                },
-                "&:hover": {
-                  backgroundColor: "#1e293b",
-                  color: "#60a5fa", // blue-400
-                },
+                color: "#94a3b8",
+                textTransform: "uppercase",
+                fontWeight: 500,
               }}
             >
-              <ListItemIcon sx={{ color: "inherit", minWidth: 36 }}>
-                <item.icon size={20} />
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItem>
-          </NavLink>
+              {section.section}
+            </Typography>
+
+            {section.items.map((item, i) => (
+              <ListItem
+                // Use NavLink as the underlying component so MUI receives the active class
+                component={NavLink}
+                to={item.path}
+                key={i}
+                // NavLink will call this to set the class on the ListItem
+                className={({ isActive }) => (isActive ? "active-link" : "inactive-link")}
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderRadius: 1,
+                  color: "#e2e8f0",
+                  "&.active-link": {
+                    backgroundColor: "#1e293b",
+                    color: "#3b82f6",
+                    fontWeight: 600,
+                  },
+                  "&:hover": {
+                    backgroundColor: "#1e293b",
+                    color: "#60a5fa",
+                  },
+                  textDecoration: "none",
+                }}
+              >
+                <ListItemIcon sx={{ color: "inherit", minWidth: 36 }}>
+                  <item.icon size={20} />
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            ))}
+          </Box>
         ))}
-      </Box>
-    ))}
-  </List>
-</Drawer>
+      </List>
+    </Drawer>
   );
 };
 

@@ -6,13 +6,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './pages/auth/Login'
 import ProtectedLayout from './layouts/ProtectedLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
-import InventoryDashboard from './pages/inventory/InventoryDashboard'
 
 import CategoryList from './pages/inventory/CategoryList'
 import ProductList from './pages/inventory/ProductList'
 import PurchaseList from './pages/inventory/PurchaseList'
 import SalesPOS from './pages/sales/SalesPOS'
 import UserList from './pages/users/UserList'
+import InventoryManagerDsahboard from './pages/inventoryManager/InventoryManagerDsahboard'
 
 function App() {
   return(
@@ -24,7 +24,7 @@ function App() {
 
           {/* Admin Route */}
           <Route path='/admin/dashboard' element={< AdminDashboard />} />
-          <Route path='/inventory/dashboard' element={<InventoryDashboard />} />
+          <Route path='/inventory/dashboard' element={<InventoryManagerDsahboard />} />
           {/* <Route path='/sales/dashboard' element={< SalesDashboard/>} /> */}
           {/* Inventory - Categories */}
             <Route
